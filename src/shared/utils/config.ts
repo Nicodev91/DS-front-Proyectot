@@ -25,7 +25,7 @@ export const getApiBaseUrl = (): string => {
   const environment = getEnvironment();
   
   if (environment === 'production') {
-    return import.meta.env.VITE_API_BASE_URL_PROD || 'https://ds-backend-proyect.vercel.app/';
+    return import.meta.env.VITE_API_BASE_URL_PROD || 'https://ds-backend-proyect.vercel.app';
   }
   
   return import.meta.env.VITE_API_BASE_URL_DEV || 'http://localhost:8091';

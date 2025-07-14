@@ -6,7 +6,7 @@ Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
 
 ```env
 # Configuración del Backend API
-VITE_API_BASE_URL=https://ds-backend-proyect.vercel.app/
+VITE_API_BASE_URL=https://ds-backend-proyect.vercel.app
 ```
 
 **Nota:** Actualmente el servicio está configurado para usar directamente la URL del backend de Vercel.
