@@ -119,6 +119,10 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({
       }
       
       // Navegar a la página de resumen con los datos del pedido
+      // En la función handleProceedToPayment, modificar la navegación para incluir los items del carrito
+      // Alrededor de la línea 120-130
+      
+      // Navegar a la página de resumen con los datos del pedido
       navigate('/order-summary', {
         state: {
           orderId: response.orderNumber,
@@ -126,7 +130,14 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({
           customerName: response.customer,
           shippingAddress: response.shippingAddress,
           total: parseFloat(response.total.replace(/[^0-9]/g, '')),
-          orderDate: response.orderDate
+          orderDate: response.orderDate,
+          // Agregar los detalles de los productos del carrito
+          cartItems: cart.items.map(item => ({
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image
+          }))
         }
       });
       

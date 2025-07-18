@@ -2,6 +2,13 @@ import React from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import OrderSummary from '../components/OrderSummary/OrderSummary';
 
+interface CartItemDetail {
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+}
+
 interface OrderSummaryState {
   orderId: string;
   status: string;
@@ -9,6 +16,7 @@ interface OrderSummaryState {
   shippingAddress: string;
   total: number;
   orderDate: string;
+  cartItems?: CartItemDetail[];
 }
 
 const OrderSummaryPage: React.FC = () => {
@@ -28,6 +36,7 @@ const OrderSummaryPage: React.FC = () => {
       shippingAddress={orderData.shippingAddress}
       total={orderData.total}
       orderDate={orderData.orderDate}
+      cartItems={orderData.cartItems || []}
     />
   );
 };
