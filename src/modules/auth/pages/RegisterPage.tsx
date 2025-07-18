@@ -28,7 +28,8 @@ const RegisterPage = () => {
                          rut.trim() !== "" &&
                          address.trim() !== "" &&
                          phone.trim() !== "" &&
-                         password === confirmPassword;
+                         password === confirmPassword &&
+                         !email.toLowerCase().includes("@admin.com");
 
   const showToast = (message: string, type: 'success' | 'error') => {
     setToastMessage(message);
@@ -91,6 +92,13 @@ const RegisterPage = () => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
+    
+    // Verificar si el correo contiene @admin.com
+    if (value.toLowerCase().includes("@admin.com")) {
+      showToast("No se permite el registro con correos @admin.com", "error");
+    } else if (isToastVisible && toastMessage === "No se permite el registro con correos @admin.com") {
+      hideToast();
+    }
   };
 
   const handleRutChange = (e: React.ChangeEvent<HTMLInputElement>) => {
