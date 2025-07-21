@@ -24,7 +24,8 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({
     nombre: '',
     rut: '',
     direccion: '',
-    whatsapp: ''
+    whatsapp: '',
+    email: ''
   });
   
   // Estado de carga
@@ -36,7 +37,8 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({
         nombre: user.name || '',
         rut: user.rut || '',
         direccion: user.address || '',
-        whatsapp: user.phone || ''
+        whatsapp: user.phone || '',
+        email: user.email || ''
       });
     }
   }, [user]);
@@ -65,7 +67,8 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({
 
   const handleProceedToPayment = async () => {
     // Validar que todos los campos estén completos
-    if (!formData.nombre || !formData.rut || !formData.direccion || !formData.whatsapp) {
+    const emailRequired = !user && !formData.email;
+    if (!formData.nombre || !formData.rut || !formData.direccion || !formData.whatsapp || emailRequired) {
       alert('Por favor completa todos los campos del formulario');
       return;
     }
@@ -85,7 +88,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({
           rut: formData.rut,
           name: formData.nombre,
           phone: formData.whatsapp,
-          email: user?.email || '',
+          email: formData.email || user?.email || '',
           address: formData.direccion
         },
         notification: {
@@ -334,6 +337,27 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
               placeholder="+56 9 1234 5678"
             />
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email {user ? '' : '*'}
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+              placeholder="tu@email.com"
+              disabled={!!user}
+            />
+            {user && (
+              <p className="text-sm text-gray-500 mt-1">
+                Email del usuario logueado
+              </p>
+            )}
           </div>
         </div>
       </div>

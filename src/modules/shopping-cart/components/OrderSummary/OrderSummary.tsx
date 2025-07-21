@@ -30,6 +30,44 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  // Función helper para formatear fechas de manera segura
+  const formatOrderDate = (dateString: string): string => {
+    try {
+      // Intentar parsear la fecha
+      const date = new Date(dateString);
+      
+      // Verificar si la fecha es válida
+      if (isNaN(date.getTime())) {
+        // Si no es válida, usar la fecha actual
+        return new Date().toLocaleDateString('es-CL', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+      
+      return date.toLocaleDateString('es-CL', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (error) {
+      console.error('Error al formatear fecha:', error);
+      // En caso de error, usar la fecha actual
+      return new Date().toLocaleDateString('es-CL', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+  };
+
   const handleContinueShopping = () => {
     navigate('/products');
   };
@@ -44,13 +82,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       customerName,
       shippingAddress,
       total: `$${total.toLocaleString('es-CL')} CLP`,
-      orderDate: new Date(orderDate).toLocaleDateString('es-CL', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
+      orderDate: formatOrderDate(orderDate),
       items: cartItems
     });
   };
@@ -101,13 +133,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             <div className="flex justify-between py-2 border-b border-gray-100">
               <span className="text-gray-600">Fecha del Pedido:</span>
               <span className="font-semibold text-gray-800">
-                {new Date(orderDate).toLocaleDateString('es-CL', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
+                {formatOrderDate(orderDate)}
               </span>
             </div>
             
