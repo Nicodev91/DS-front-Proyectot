@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { ProductFilter } from '../../domain/Product';
 import { SORT_OPTIONS } from '../../infrastructure/ProductRepository';
 
@@ -10,6 +10,30 @@ interface FiltersProps {
 }
 
 const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange, onResetFilters, categories = [] }) => {
+  // Estado local para el término de búsqueda
+  const [searchInputValue, setSearchInputValue] = useState(filters.searchTerm);
+  
+  // Efecto para implementar el debounce
+  useEffect(() => {
+    // Configuramos un temporizador para actualizar el filtro después de 500ms de inactividad
+    const timeoutId = setTimeout(() => {
+      // Solo actualizamos si el valor ha cambiado
+      if (searchInputValue !== filters.searchTerm) {
+        onFilterChange('searchTerm', searchInputValue);
+      }
+    }, 500);
+    
+    // Limpiamos el temporizador si el componente se desmonta o si searchInputValue cambia
+    return () => clearTimeout(timeoutId);
+  }, [searchInputValue, filters.searchTerm, onFilterChange]);
+  
+  // Manejador para el evento de tecla Enter
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onFilterChange('searchTerm', searchInputValue);
+    }
+  };
+  
   return (
     <div className="bg-gradient-to-r from-white to-green-50 p-6 rounded-xl shadow-lg border border-green-100 mb-8">
       {/* Título de filtros */}
@@ -25,8 +49,9 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange, onResetFilte
             type="text"
             placeholder="🔍 Buscar producto..."
             className="w-full border-2 border-green-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white shadow-sm"
-            value={filters.searchTerm}
-            onChange={e => onFilterChange('searchTerm', e.target.value)}
+            value={searchInputValue}
+            onChange={e => setSearchInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <div className="flex gap-3">
@@ -83,8 +108,9 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange, onResetFilte
               type="text"
               placeholder="🔍 Buscar producto..."
               className="border-2 border-green-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white shadow-sm min-w-[200px]"
-              value={filters.searchTerm}
-              onChange={e => onFilterChange('searchTerm', e.target.value)}
+              value={searchInputValue}
+              onChange={e => setSearchInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </div>
           <select
