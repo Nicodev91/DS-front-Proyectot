@@ -19,7 +19,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange, onResetFilte
     const timeoutId = setTimeout(() => {
       // Solo actualizamos si el valor ha cambiado
       if (searchInputValue !== filters.searchTerm) {
-        onFilterChange('searchTerm', searchInputValue);
+        onFilterChange('searchTerm', searchInputValue);  
       }
     }, 500);
     
