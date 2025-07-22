@@ -415,12 +415,12 @@ const Profile: React.FC = () => {
                 </div>
                 
                 <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg">
-                  <div className="text-2xl font-bold text-blue-700">€342.50</div>
+                  <div className="text-2xl font-bold text-blue-700">$342.500 CLP</div>
                   <div className="text-sm text-blue-600">Total gastado</div>
                 </div>
                 
                 <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-700">€17.12</div>
+                  <div className="text-2xl font-bold text-purple-700">$17.120 CLP</div>
                   <div className="text-sm text-purple-600">Ahorrado con descuentos</div>
                 </div>
               </div>
